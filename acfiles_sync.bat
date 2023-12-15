@@ -11,6 +11,7 @@ setlocal
 
 :: robosync options
 set "robocopy_options=/COPY:DAT /DCOPY:DAT /S /Z /MT /MIR"
+set "robocopy_log_path=C:\Users\admin\Documents\batch_files"
 
 :: source paths
 set "docs_src=C:\Users\admin\Documents"
@@ -59,11 +60,14 @@ IF NOT EXIST "%appuser_src%" (
 :: create destination path
 IF NOT EXIST "%dest_path%" mkdir "%dest_path%"
 
+:: create log path
+IF NOT EXIST "%robocopy_log_path%" mkdir "%robocopy_log_path%"
+
 :: start file sync tasks
 ECHO:
 ECHO Syncing Documents folder
 IF NOT EXIST "%docs_dest%" mkdir "%docs_dest%"
-robocopy "%docs_src%" "%docs_dest%" %robocopy_options% /LOG:robocopy_documents.log
+robocopy "%docs_src%" "%docs_dest%" %robocopy_options% /LOG:%robocopy_log_path%\robocopy_documents.log
 :: Robocopy always fails on some files in Documents, so we only check for fatal error level: 16.
 if ErrorLevel 16 (
     ECHO Something went wrong. 
@@ -75,7 +79,7 @@ if ErrorLevel 16 (
 ECHO:
 ECHO Syncing ACTools Appuser Data
 IF NOT EXIST "%appuser_dest%" mkdir "%appuser_dest%"
-robocopy "%appuser_src%" "%appuser_dest%" %robocopy_options% /LOG:robocopy_appuser.log
+robocopy "%appuser_src%" "%appuser_dest%" %robocopy_options% /LOG:%robocopy_log_path%\robocopy_appuser.log
 if ErrorLevel 8 (
     ECHO Something went wrong. 
     ECHO Robocopy errorlevel: %ErrorLevel% 
@@ -86,7 +90,7 @@ if ErrorLevel 8 (
 ECHO:
 ECHO Syncing Assetto Corsa Directory
 IF NOT EXIST "%assetto_dest%" mkdir "%assetto_dest%"
-robocopy "%assetto_src%" "%assetto_dest%" %robocopy_options% /LOG:robocopy_assettocorsa.log
+robocopy "%assetto_src%" "%assetto_dest%" %robocopy_options% /LOG:%robocopy_log_path%\robocopy_assettocorsa.log
 if ErrorLevel 8 (
     ECHO Something went wrong. 
     ECHO Robocopy errorlevel: %ErrorLevel% 
@@ -95,8 +99,7 @@ if ErrorLevel 8 (
 )
 
 ECHO:
-ECHO Finished! 
-ECHO Errorlevel: %errorlevel%
+ECHO Finished!
 ECHO:
 
 endlocal
