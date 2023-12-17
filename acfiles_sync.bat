@@ -1,3 +1,5 @@
+:: acfiles_sync.bat
+:: ---
 :: This script uses robocopy to sync files to dest_path
 :: Logs are used to improve multithread performance
 :: v1: 20231211
