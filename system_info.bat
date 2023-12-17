@@ -1,13 +1,9 @@
 @ECHO OFF
 setlocal
-:: This batch file will show system information 
+:: This batch file will show system information
+:: src: https://www.windowscentral.com/how-create-and-run-batch-file-windows-10
 
 TITLE My System info
-
-ECHO This script will gather system information. Proceed?
-SET /P AREYOUSURE=Are you sure (Y/[N])?
-IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
-
 ECHO -------
 ECHO Windows info
 ECHO -------
