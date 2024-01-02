@@ -13,11 +13,11 @@ setlocal
 
 :: robosync options
 set "robocopy_options=/COPY:DAT /DCOPY:DAT /S /Z /MT /MIR"
-set "robocopy_log_path=C:\Users\admin\Documents\batch_files"
+set "robocopy_log_path=C:\Users\%USERNAME%\Documents\batch_files"
 
 :: source paths
-set "docs_src=C:\Users\admin\Documents"
-set "appuser_src=C:\Users\admin\AppData\Local\AcTools Content Manager"
+set "docs_src=C:\Users\%USERNAME%\Documents"
+set "appuser_src=C:\Users\%USERNAME%\AppData\Local\AcTools Content Manager"
 set "assetto_src=C:\Program Files (x86)\Steam\steamapps\common\assettocorsa"
 
 :: destination paths
@@ -28,7 +28,7 @@ set "assetto_dest=%dest_path%\assettocorsa"
 
 :: confirm before starting
 ECHO:
-ECHO This script uses robocopy to sync Assetto Corsa files to the %dest_path% Directory.
+ECHO This script uses robocopy to sync Assetto Corsa related files to the %dest_path% Directory.
 SET /P AREYOUSURE=Proceed (Y/[N])? 
 IF /I "%AREYOUSURE%" NEQ "Y" (
     ECHO Exiting without syncing any files.
@@ -49,7 +49,9 @@ IF NOT EXIST "%appuser_src%" (
     EXIT /B 1
 )
 
-:: path has parens. IF statement gets confused, escape ^ does not seem to satisfy.
+:: ### IF statement gets confused with close paren in 'Program Files (x86)'
+:: ### path. Escape char '^' does not seem to satisfy.
+:: ###
 ::set "test_assetto_src=%assetto_src:)=^)%"
 ::set "test_assetto_src=%test_assetto_src:(=^(%"
 ::ECHO "%test_assetto_src%"
