@@ -18,7 +18,8 @@ set "robocopy_log_path=C:\Users\%USERNAME%\Documents\batch_files"
 :: source paths
 set "docs_src=C:\Users\%USERNAME%\Documents"
 set "appuser_src=C:\Users\%USERNAME%\AppData\Local\AcTools Content Manager"
-set "assetto_src=C:\Program Files (x86)\Steam\steamapps\common\assettocorsa"
+:: use 'dir /x' to show 8.3 shortpath names, fixing 'Program Files (x86)' issue
+set "assetto_src=C:\PROGRA~2\Steam\steamapps\common\assettocorsa"
 
 :: destination paths
 SET "dest_path=Z:\Assetto Corsa"
@@ -49,17 +50,11 @@ IF NOT EXIST "%appuser_src%" (
     EXIT /B 1
 )
 
-:: ### IF statement gets confused with close paren in 'Program Files (x86)'
-:: ### path. Escape char '^' does not seem to satisfy.
-:: ###
-::set "test_assetto_src=%assetto_src:)=^)%"
-::set "test_assetto_src=%test_assetto_src:(=^(%"
-::ECHO "%test_assetto_src%"
-::IF NOT EXIST "%test_assetto_src%" (
-::    ECHO ERROR: Path missing: %assetto_src%
-::    PAUSE
-::    EXIT /B 1
-::)
+IF NOT EXIST "%assetto_src%" (
+    ECHO ERROR: Path missing: %assetto_src%
+    PAUSE
+    EXIT /B 1
+)
 
 :: create destination path
 IF NOT EXIST "%dest_path%" mkdir "%dest_path%"
@@ -72,7 +67,7 @@ ECHO:
 ECHO Syncing Documents folder
 IF NOT EXIST "%docs_dest%" mkdir "%docs_dest%"
 robocopy "%docs_src%" "%docs_dest%" %robocopy_options% /LOG:%robocopy_log_path%\robocopy_documents.log
-:: Robocopy always fails on some files in Documents, so we only check for fatal error level: 16.
+:: Robocopy always has some file access perm issues in Documents, so only check for fatal error level: 16.
 if ErrorLevel 16 (
     ECHO Something went wrong. 
     ECHO Robocopy errorlevel: %ErrorLevel% 

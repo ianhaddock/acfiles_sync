@@ -1,9 +1,14 @@
+:: This batch file shows system information
+:: from windowscentral.com/how-create-and-run-batch-file-windows-10
+
 @ECHO OFF
+
+:: local vars
 setlocal
-:: This batch file will show system information
-:: src: https://www.windowscentral.com/how-create-and-run-batch-file-windows-10
 
 TITLE My System info
+
+:: System
 ECHO -------
 ECHO Windows info
 ECHO -------
@@ -22,7 +27,7 @@ wmic diskdrive get name,model,size
 wmic path win32_videocontroller get Name
 wmic path win32_VideoController get CurrentHorizontalResolution,CurrentVerticalResolution
 
-:: networking
+:: Networking
 
 ECHO -------
 ECHO Network info
