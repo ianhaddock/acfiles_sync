@@ -6,7 +6,7 @@
 
 @ECHO OFF
 
-TITLE 'Robocopy Files'
+TITLE 'Robocopy Assetto Corsa Files'
 
 :: use local vars
 setlocal
@@ -22,7 +22,7 @@ set "appuser_src=C:\Users\%USERNAME%\AppData\Local\AcTools Content Manager"
 set "assetto_src=C:\PROGRA~2\Steam\steamapps\common\assettocorsa"
 
 :: destination paths
-SET "dest_path=Z:\Assetto Corsa"
+SET "dest_path=A:\"
 set "docs_dest=%dest_path%\Documents"
 set "appuser_dest=%dest_path%\AcTools Content Manager"
 set "assetto_dest=%dest_path%\assettocorsa"
